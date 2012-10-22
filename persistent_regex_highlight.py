@@ -9,11 +9,13 @@ SETTINGS = [
 ]
 
 class PersistentRegexHighlightCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
+    def run(self, edit, settings = {}):
         view = self.view
-        settings = get_settings(view)
         counter = 0
         key_base = "regex_highlight_"
+
+        if (len(settings) == 0):
+            settings = get_settings(view)        
         
         self.remove_highlight(settings, key_base)
         if settings.get("enabled"):
@@ -29,7 +31,11 @@ class PersistentRegexHighlightCommand(sublime_plugin.TextCommand):
 
         # Find all entries that match a pattern
         for obj in regex_list:
-            regions = view.find_all(obj["pattern"])
+            if obj.has_key("ignore_case") and obj["ignore_case"]:
+                regions = view.find_all(obj["pattern"], sublime.IGNORECASE)
+            else:
+                regions = view.find_all(obj["pattern"])
+
             if obj.has_key("color"):
                 color = obj["color"]
             else:
@@ -41,7 +47,7 @@ class PersistentRegexHighlightCommand(sublime_plugin.TextCommand):
                     region_dictionary[region] = color;
 
         # Create a dictionary of only the entries to be colored, and their associated color
-        regions = region_set.get_set()
+        regions = region_set.to_array()
         for region in regions:
             color = region_dictionary[region]
             if color_dictionary.has_key(color):
@@ -54,15 +60,19 @@ class PersistentRegexHighlightCommand(sublime_plugin.TextCommand):
     def highlight_regex(self, color_dictionary, key_base):
         view = self.view
         counter = 0
+
         for color, regions in color_dictionary.iteritems():
             view.add_regions(key_base + str(counter), regions, color, sublime.DRAW_EMPTY_AS_OVERWRITE)
             counter += 1    
 
+
     def remove_highlight(self, settings, key_base):
         view = self.view
         counter = 0
+
         while True:
             temp = view.get_regions(key_base + str(counter))
+
             if len(temp) > 0:
                 view.erase_regions(key_base + str(counter))
                 counter += 1
@@ -72,26 +82,31 @@ class PersistentRegexHighlightCommand(sublime_plugin.TextCommand):
 class PersistentRegexHighlightEvents(sublime_plugin.EventListener):
     def on_load(self, view):
         settings = get_settings(view)
+
         if settings.get("on_load"):
-            view.run_command("persistent_regex_highlight")
+            view.run_command("persistent_regex_highlight", {"settings": settings})
 
     def on_modified(self, view):
         settings = get_settings(view)
+
         if settings.get("on_modify"):
-            view.run_command("persistent_regex_highlight")
+            view.run_command("persistent_regex_highlight", {"settings": settings})
 
     def on_activated(self, view):
         settings = get_settings(view)
+
         if settings.get("on_focus"):
-            view.run_command("persistent_regex_highlight")        
+            view.run_command("persistent_regex_highlight", {"settings": settings})        
 
 # Should remove entries wrapped in other entries
 class LocalRegionSet():
     def __init__(self):
         self.local_set = []
+
     def add(self, region):
         local_set = self.local_set
         add = True
+
         for region_in_set in local_set:
             if region_in_set.contains(region):
                 add = False
@@ -108,20 +123,28 @@ class LocalRegionSet():
 
     def contains(self, region):
         local_set = self.local_set
-        print local_set
+
         for local_region in local_set:
             if region == local_region:
                 return True
+                
         return False
 
-    def get_set(self):
+    def to_array(self):
         return self.local_set
 
 def get_settings(view):
     settings = sublime.load_settings("PersistentRegexHighlight.sublime-settings")
     project_settings = view.settings().get('PersistentRegexHighlight', {})
+    local_settings = {}
+
+    for setting in SETTINGS:
+        local_settings[setting] = settings.get(setting)
+
     for key in project_settings:
         if key in SETTINGS:
-            settings.set(key, project_settings[key])
+            local_settings[key] = project_settings[key]
+        else: 
+            print "PersistentRegexHighlight: Invalid key '" + key + "' in project settings."
 
-    return settings
+    return local_settings
