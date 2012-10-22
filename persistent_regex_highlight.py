@@ -4,7 +4,8 @@ SETTINGS = [
     "regex",
     "enabled",
     "on_load",
-    "on_modify"
+    "on_modify",
+    "on_focus"
 ]
 
 class PersistentRegexHighlightCommand(sublime_plugin.TextCommand):
@@ -15,7 +16,6 @@ class PersistentRegexHighlightCommand(sublime_plugin.TextCommand):
         key_base = "regex_highlight_"
         
         self.remove_highlight(settings, key_base)
-            
         if settings.get("enabled"):
             self.highlight_regex(settings, key_base)
 
@@ -59,7 +59,7 @@ class PersistentRegexHighlightEvents(sublime_plugin.EventListener):
         if settings.get("on_modify"):
             view.run_command("persistent_regex_highlight")
 
-    def on_focus(self, view):
+    def on_activated(self, view):
         settings = get_settings(view)
         if settings.get("on_focus"):
             view.run_command("persistent_regex_highlight")        
