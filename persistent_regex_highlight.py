@@ -59,6 +59,11 @@ class PersistentRegexHighlightEvents(sublime_plugin.EventListener):
         if settings.get("on_modify"):
             view.run_command("persistent_regex_highlight")
 
+    def on_focus(self, view):
+        settings = get_settings(view)
+        if settings.get("on_focus"):
+            view.run_command("persistent_regex_highlight")        
+
 def get_settings(view):
     settings = sublime.load_settings("PersistentRegexHighlight.sublime-settings")
     project_settings = view.settings().get('PersistentRegexHighlight', {})

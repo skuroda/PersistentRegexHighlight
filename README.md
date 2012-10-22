@@ -24,6 +24,10 @@ A boolean value that specifies if highlighting should occur when a view is loade
 
 A boolean value that specifies if highlighting should occur as modifications are made.
 
+`on_focus`:
+
+A boolean value that specifies if highlighting should occur when a window gains input focus.
+
 ## Project Specific Settings
 All of the above settings can also be specified as part of the project specific settings. These values override any previous values set by higher level settings (user and default). For example, specifying a new `regex` entry will only highlight entries specified as part of the project specific settings. 
 
