@@ -1,0 +1,16 @@
+{
+	// Array of objects containing a regular expression
+	// and an optional coloring scheme
+	// Sample entry:
+	// { "pattern": regexHere, "color": optional.color.scheme}
+	"regex": [],
+
+	// If highlighting is enabled
+	"enabled": true,
+
+	// If highlighting should occur when a view is loaded
+	"on_load": true,
+
+	// If highlighting should occur as modifications happen
+	"on_modify": true
+}
