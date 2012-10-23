@@ -37,8 +37,8 @@ class PersistentRegexHighlightCommand(sublime_plugin.TextCommand):
             else:
                 regions = view.find_all(obj["pattern"])
 
-            if "color" in obj:
-                color = obj["color"]
+            if "color_scope" in obj:
+                color = obj["color_scope"]
             else:
                 color = "entity.name.class"
 

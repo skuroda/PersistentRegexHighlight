@@ -10,12 +10,12 @@ Download the zip or clone the git repository. Then move it into the Packages dir
 ## Settings
 `regex`:
 
-An array of hash entries used to determine what to highlight. Entries have one required (`pattern`) and two optional keys (`color` and `ignore_case`). The `pattern` key should map to a string specifying the patter to search for. The `color` key contains the coloring scope to use. For more information on coloring, see [Specifiying Highlight Color](https://github.com/skuroda/PersistentRegexHighlight#specifying-highlight-color). The `ignore_case` key is a boolean value used to specify if case should be ignored for a particular pattern. By default, this is set to false.
+An array of hash entries used to determine what to highlight. Entries have one required (`pattern`) and two optional keys (`color_scope` and `ignore_case`). The `pattern` key should map to a string specifying the patter to search for. The `color_scope` key contains the coloring scope to use. For more information on coloring, see [Specifiying Highlight Color](https://github.com/skuroda/PersistentRegexHighlight#specifying-highlight-color). The `ignore_case` key is a boolean value used to specify if case should be ignored for a particular pattern. By default, this is set to false.
 
     {
         "regex": [{
             "pattern": "foo",
-            "color": "color.scope.name",
+            "color_scope": "color.scope.name",
             "ignore_case: true
         }]
     }
