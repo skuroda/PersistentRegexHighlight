@@ -12,8 +12,5 @@
 	"on_load": true,
 
 	// If highlighting should occur as modifications happen
-	"on_modify": true,
-
-	// If highlighting should occur when a window becomes focused
-	"on_focus": true
+	"on_modify": true
 }
