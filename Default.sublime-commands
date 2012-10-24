@@ -1,0 +1,6 @@
+[
+	{
+		"caption": "PersistentRegexHighlight: Highlight Current File",
+        "command": "persistent_regex_highlight"
+	}
+]
