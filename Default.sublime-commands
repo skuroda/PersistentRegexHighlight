@@ -1,6 +1,10 @@
 [
 	{
 		"caption": "PersistentRegexHighlight: Highlight Current File",
-        "command": "persistent_regex_highlight"
+        "command": "persistent_regex_highlight_view"
+	},
+	{
+		"caption": "PersistentRegexHighlight: Highlight All Files",
+        "command": "persistent_regex_highlight_all_views"
 	}
 ]
