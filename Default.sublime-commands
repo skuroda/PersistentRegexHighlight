@@ -1,10 +1,18 @@
 [
-	{
-		"caption": "PersistentRegexHighlight: Highlight Current File",
+    {
+        "caption": "PersistentRegexHighlight: Highlight Current File",
         "command": "persistent_regex_highlight_view"
-	},
-	{
-		"caption": "PersistentRegexHighlight: Highlight All Files",
+    },
+    {
+        "caption": "PersistentRegexHighlight: Highlight All Files",
         "command": "persistent_regex_highlight_all_views"
-	}
+    },
+    {
+        "caption": "PersistentRegexHighlight: Unhighlight Current File",
+        "command": "remove_persistent_regex_highlight_view"
+    },
+    {
+        "caption": "PersistentRegexHighlight: Unhighlight All Files",
+        "command": "remove_persistent_regex_highlight_all_views"
+    }
 ]

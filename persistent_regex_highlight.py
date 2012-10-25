@@ -34,7 +34,7 @@ class PersistentRegexHighlightAllViewsCommand(sublime_plugin.ApplicationCommand)
                 view.run_command("persistent_regex_highlight_view")
 
 
-class RemovePersistentHighlightViewCommand(sublime_plugin.TextCommand):
+class RemovePersistentRegexHighlightViewCommand(sublime_plugin.TextCommand):
     def run(self, edit, settings={}):
         view = self.view
         if (len(settings) == 0):
@@ -44,7 +44,7 @@ class RemovePersistentHighlightViewCommand(sublime_plugin.TextCommand):
         highlight_manager.remove_highlight()
 
 
-class RemovePersistentHighlightAllViewsCommand(sublime_plugin.ApplicationCommand):
+class RemovePersistentRegexHighlightAllViewsCommand(sublime_plugin.ApplicationCommand):
     def run(self):
         windows = sublime.windows()
 
