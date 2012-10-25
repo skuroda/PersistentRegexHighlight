@@ -53,53 +53,42 @@ class ColorSchemeManager():
 
         package_path = sublime.packages_path()
         preferences = sublime.load_settings("Preferences.sublime-settings")
-        color_scheme_base = preferences.get('color_scheme')
+        preferences_cs = preferences.get('color_scheme')
+        preferences_cs_absolute = package_path + "/../" + preferences_cs
 
-        last_slash_index = color_scheme_base.rfind("/")
-
+        last_slash_index = preferences_cs.rfind("/")
         if last_slash_index != -1:
-            color_scheme_name = color_scheme_base[last_slash_index:][1:]
-        else:
-            color_scheme_name = color_scheme_base
+            cs_base = preferences_cs[last_slash_index:][1:]
 
-        if color_scheme_base[0:9] == "Packages/":
-            color_scheme_file = package_path + "/" + color_scheme_base[9:]
+        if cs_base[0:15] != "CustomHighlight":
+            new_cs_base = "CustomHighlight" + cs_base
         else:
-            color_scheme_file = package_path + "/" + color_scheme_base
+            new_cs_base = cs_base
 
+        new_cs_absolute = self._create_custom_color_scheme_directory() + "/" + new_cs_base
+        new_cs = "Packages/User/ColorScheme/" + new_cs_base
         try:
-            color_scheme = plistlib.readPlist(color_scheme_file)
+            cs_plist = plistlib.readPlist(preferences_cs_absolute)
         except:
             sublime.error_message("An error occured while reading color " + \
                 "scheme file. Please check the console for details.")
             raise
-
         updates_made, color_scheme = \
-            self._add_colors_to_scheme(color_scheme, colors)
+            self._add_colors_to_scheme(cs_plist, colors)
 
-        custom_color_path = self._create_custom_color_scheme_directory()
-        short_color_path = custom_color_path.lstrip(package_path)
-        if short_color_path[0] == "/":
-            color_scheme_entry = "Packages" + short_color_path + \
-                "/" + color_scheme_name
-        else:
-            color_scheme_entry = "Packages/" + short_color_path + \
-                "/" + color_scheme_name
+        if updates_made or preferences_cs != new_cs:
+            plistlib.writePlist(color_scheme, new_cs_absolute)
 
-        if updates_made or color_scheme_base != color_scheme_entry:
-            plistlib.writePlist(color_scheme, custom_color_path + \
-                "/" + color_scheme_name)
-
-        if color_scheme_base != color_scheme_entry:
+        if preferences_cs != new_cs:
             if ColorSchemeManager.update_preferences:
                 okay = sublime.ok_cancel_dialog("Would you like to change " + \
-                    "your color scheme to '" + color_scheme_entry + "'? " + \
+                    "your color scheme to '" + new_cs + "'? " + \
                     "This is where the custom colors are being saved. By " + \
                     "clicking cancel you will not be reminded again in " + \
                     "this session")
 
                 if okay:
-                    preferences.set("color_scheme", color_scheme_entry)
+                    preferences.set("color_scheme", new_cs)
                     sublime.save_settings("Preferences.sublime-settings")
                 else:
                     ColorSchemeManager.update_preferences = False
