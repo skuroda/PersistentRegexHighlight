@@ -25,6 +25,11 @@ A boolean value that specifies if highlighting should occur when a view is loade
 
 A boolean value that specifies if highlighting should occur as modifications are made.
 
+`disable_pattern`: 
+
+An array containing file patterns to ignore. Note these use Unix style patterns. Patterns are compared against the absolute path for the current file.
+
+
 ## Regex Settings
 `pattern`:
 
@@ -41,6 +46,7 @@ An optional parameter specifying the color scope to use. Please note you should 
 `color`:
 
 An optional parameter specifying a highlight color. Please note you should specify **either** `color` or `color_scope`. If both are specified, `color_scope` will be taken over `color`. The value for this entry should be in the form `RRBBGG`. By specifying this value, a new color scheme file will be generated. Please see [Specifiying Highlight Color](https://github.com/skuroda/PersistentRegexHighlight#specifying-highlight-color) for more information about specifying a color and the generated file.
+
 
 ### Sample Regex Entries
 Example specifying a color scope.

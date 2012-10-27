@@ -1,8 +1,8 @@
 {
+	// Please see the README for more information on settings.
+	
 	// Array of objects containing a regular expression
 	// and an optional coloring scheme
-	// Sample entry:
-	// { "pattern": regexHere, "color": optional.color.scheme}
 	"regex": [],
 
 	// If highlighting is enabled
@@ -12,5 +12,10 @@
 	"on_load": true,
 
 	// If highlighting should occur as modifications happen
-	"on_modify": true
+	"on_modify": true,
+
+	// File pattern to disable on. Should be specified as Unix style patterns
+	// Note, this looks at the absolute path to match the pattern. So if trying
+	// ignore a single file (e.g. README.md), you will need to specify "**/README.md"
+	"disable_pattern": []
 }

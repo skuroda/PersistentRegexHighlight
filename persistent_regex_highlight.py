@@ -1,18 +1,22 @@
 import sublime
 import sublime_plugin
+import fnmatch
 from highlight_manager import *
 
 SETTINGS = [
     "regex",
     "enabled",
     "on_load",
-    "on_modify"
+    "on_modify",
+    "disable_pattern"
 ]
 
 
 class PersistentRegexHighlightViewCommand(sublime_plugin.TextCommand):
     def run(self, edit, settings={}):
         view = self.view
+        filename = view.file_name()
+        pattern_enable = True
 
         if (len(settings) == 0):
             settings = get_settings(view)
@@ -20,7 +24,16 @@ class PersistentRegexHighlightViewCommand(sublime_plugin.TextCommand):
         highlight_manager = HighlightManager(view, settings)
 
         highlight_manager.remove_highlight()
-        if settings.get("enabled"):
+
+        disable_pattern = settings.get("disable_pattern")
+
+        for pattern in disable_pattern:
+
+            if fnmatch.fnmatch(filename, pattern):
+                pattern_enable = False
+                break
+
+        if settings.get("enabled") and pattern_enable:
             highlight_manager.highlight()
 
 
