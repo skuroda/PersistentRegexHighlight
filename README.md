@@ -113,7 +113,7 @@ Below is a sample entry for specifying a custom scope in the theme file. The sco
 Specifying a value for the `color` key will generate a new color scheme file. This will take the contents of your current color scheme file and write it to `Packages/User/ColorScheme/<color_scheme_name_here>`. This is done to prevent polluting the default color scheme with the additional values. When this is done, you will be prompted with a dialog box to optionally change your color scheme file to the newly created one. 
 
 ## Troubleshooting
-If you are having unexpected behaviors, please do not hesitate to create an issue. When you do, please include the console output, accessible through `View -> Show Console` or `Ctrl/Cmd + \`` by default.
+If you are having unexpected behaviors, please do not hesitate to create an issue. When you do, please include the console output, accessible through `View -> Show Console` or ``Ctrl/Cmd + ` `` by default.
 
 ### Specifying a color
 The current libraries included with Sublime Text 2 for some platforms are missing the pyexpat module. To temporarily fix this issue, you will need to place the Python library into the Sublime Library directory. If you already have Python 2.6, like `ln -s /usr/lib/python2.6 [Sublime Text 2 Directory]/lib`. 
