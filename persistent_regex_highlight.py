@@ -28,6 +28,8 @@ class PersistentRegexHighlightViewCommand(sublime_plugin.TextCommand):
         disable_pattern = settings.get("disable_pattern")
 
         for pattern in disable_pattern:
+            if filename == None:
+                continue
 
             if fnmatch.fnmatch(filename, pattern):
                 pattern_enable = False
