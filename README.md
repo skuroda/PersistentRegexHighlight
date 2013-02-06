@@ -66,7 +66,7 @@ Example specifying a color scope.
         "regex": [{
             "pattern": "[Ff]oo",
             "color_scope": "color.scope.name",
-            "ignore_case: true
+            "ignore_case": true
         }]
     }
 
@@ -76,7 +76,7 @@ Example specifying a color.
         "regex": [{
             "pattern": "Bar",
             "color": "00FF00",
-            "ignore_case: false
+            "ignore_case": false
         }]
     }
 
