@@ -24,8 +24,10 @@ class HighlightManager():
         region_dictionary = {}
         color_dictionary = {}
         colors = []
+        self.underline_regions = []
         # Find all entries that match a pattern
         for obj in regex_list:
+            underline = False
             if "ignore_case" in obj and obj["ignore_case"]:
                 regions = view.find_all(obj["pattern"], sublime.IGNORECASE)
             else:
@@ -39,9 +41,14 @@ class HighlightManager():
             else:
                 color = "entity.name.class"
 
+            if "underline" in obj and obj["underline"]:
+                underline = True
+
             if len(regions) > 0:
                 region_set.add_all(regions)
                 for region in regions:
+                    if underline:
+                        self.underline_regions.append(region)
                     region_dictionary[region] = color
 
         # Create a dictionary of only the entries to be colored,
@@ -62,9 +69,24 @@ class HighlightManager():
         counter = 0
 
         for color, regions in color_dictionary.iteritems():
-            view.add_regions(key_base + str(counter), regions, color,
+            highlight_regions = []
+            for region in regions:
+                if region in self.underline_regions:
+                    highlight_regions += self._underline(region)
+                else:
+                    highlight_regions.append(region)
+            view.add_regions(key_base + str(counter), highlight_regions, color,
                 sublime.DRAW_EMPTY_AS_OVERWRITE)
             counter += 1
+
+    def _underline(self, region):
+        ret_regions = []
+        begin = region.begin()
+        end = region.end()
+        while begin < end:
+            ret_regions.append(sublime.Region(begin, begin))
+            begin += 1
+        return ret_regions
 
     def remove_highlight(self):
         view = self.view
