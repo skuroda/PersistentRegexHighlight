@@ -28,10 +28,15 @@ class HighlightManager():
         # Find all entries that match a pattern
         for obj in regex_list:
             underline = False
-            if "ignore_case" in obj and obj["ignore_case"]:
-                regions = view.find_all(obj["pattern"], sublime.IGNORECASE)
+            if "pattern" in obj:
+                if "ignore_case" in obj and obj["ignore_case"]:
+                    regions = view.find_all(obj["pattern"], sublime.IGNORECASE)
+                else:
+                    regions = view.find_all(obj["pattern"])
+            elif "pattern_scope" in obj:
+                regions = view.find_by_selector(obj["pattern_scope"])
             else:
-                regions = view.find_all(obj["pattern"])
+                continue
 
             if "color_scope" in obj:
                 color = obj["color_scope"]
@@ -76,7 +81,7 @@ class HighlightManager():
                 else:
                     highlight_regions.append(region)
             view.add_regions(key_base + str(counter), highlight_regions, color,
-                sublime.DRAW_EMPTY_AS_OVERWRITE)
+                             sublime.DRAW_EMPTY_AS_OVERWRITE)
             counter += 1
 
     def _underline(self, region):

@@ -16,9 +16,8 @@ class ColorSchemeManager():
         updates_made = False
 
         for color in colors:
-            if re.match(r"[0-9a-fA-F]{6}", color) == None:
-                print "PersistentRegexHighlight: Invalid color specified - "\
-                 + color
+            if re.match(r"[0-9a-fA-F]{6}", color) is None:
+                print "PersistentRegexHighlight: Invalid color specified - " + color
                 print "Colors should be in the form 'RRGGBB'"
                 continue
             scope = "highlight.color." + color.upper()

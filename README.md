@@ -23,7 +23,6 @@ Installation through [package control](http://wbond.net/sublime_packages/package
 
 An array of hash entries used to determine what to highlight. For more information about these entries, please see [Regex Settings](https://github.com/skuroda/PersistentRegexHighlight#regex-settings).
 
-
 `enabled`:
 
 A boolean value that is used to specify if highlighting is enabled.
@@ -44,11 +43,15 @@ An array containing file patterns to ignore. Note these use Unix style patterns.
 ### Regex Settings
 `pattern`:
 
-A required string parameter used to specify the pattern to match.
+A string representing a pattern to match. Note that the regex setting must contain **either** `pattern` or `pattern_scope`. If both are specified, `pattern` will be used.
+
+`pattern_scope`:
+
+A string specifying a scope to highlight. These are scopes that exist in a `.tmLanguage` files. If multiple entries in the `regex` setting contain overlapping scopes, the first will be used. For example, if two entries are specified with different colors, one being `constant.language` and the other being `constant.language.python`, which ever appears first will be used to highlight. Note that the regex setting must contain **either** `pattern` or `pattern_scope`. If both are specified, `pattern` will be used.
 
 `ignore_case`:
 
-An optional boolean value specifiying if the pattern should ignore case. By default, this is set to false.
+An optional boolean value specifiying if the pattern should ignore case. This only applies if `pattern` is specified. By default, this is set to false.
 
 `color_scope`:
 
@@ -70,6 +73,9 @@ Example specifying a color scope.
             "pattern": "[Ff]oo",
             "color_scope": "color.scope.name",
             "ignore_case": true
+        }, {
+            "pattern": "constant.language",
+            "color_scope": "constant.language"
         }]
     }
 
