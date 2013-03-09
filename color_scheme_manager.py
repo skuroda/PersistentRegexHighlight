@@ -17,8 +17,9 @@ class ColorSchemeManager():
 
         for color in colors:
             if re.match(r"[0-9a-fA-F]{6}", color) is None:
-                print "PersistentRegexHighlight: Invalid color specified - " + color
-                print "Colors should be in the form 'RRGGBB'"
+                print("PersistentRegexHighlight: Invalid color specified - " +
+                      color)
+                print("Colors should be in the form 'RRGGBB'")
                 continue
             scope = "highlight.color." + color.upper()
 
@@ -64,13 +65,15 @@ class ColorSchemeManager():
         else:
             new_cs_base = cs_base
 
-        new_cs_absolute = self._create_custom_color_scheme_directory() + "/" + new_cs_base
+        custom_color_base = self._create_custom_color_scheme_directory()
+        new_cs_absolute = os.path.join(custom_color_base, new_cs_base)
         new_cs = "Packages/User/ColorScheme/" + new_cs_base
         try:
             cs_plist = plistlib.readPlist(preferences_cs_absolute)
         except:
-            sublime.error_message("An error occured while reading color " + \
-                "scheme file. Please check the console for details.")
+            sublime.error_message("An error occured while reading color " +
+                                  "scheme file. Please check the console "
+                                  "for details.")
             raise
         updates_made, color_scheme = \
             self._add_colors_to_scheme(cs_plist, colors)
@@ -80,11 +83,14 @@ class ColorSchemeManager():
 
         if preferences_cs != new_cs:
             if ColorSchemeManager.update_preferences:
-                okay = sublime.ok_cancel_dialog("Would you like to change " + \
-                    "your color scheme to '" + new_cs + "'? " + \
-                    "This is where the custom colors are being saved. By " + \
-                    "clicking cancel you will not be reminded again in " + \
-                    "this session")
+                okay = sublime.ok_cancel_dialog("Would you like to change " +
+                                                "your color scheme to '" +
+                                                new_cs + "'? " + "This is " +
+                                                "where the custom colors " +
+                                                "are being saved. By " +
+                                                "clicking cancel you will " +
+                                                "not be reminded again in " +
+                                                "this session")
 
                 if okay:
                     preferences.set("color_scheme", new_cs)

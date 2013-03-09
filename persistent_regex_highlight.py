@@ -74,17 +74,20 @@ class PersistentRegexHighlightEvents(sublime_plugin.EventListener):
     def on_load(self, view):
         settings = get_settings(view)
         if settings.get("on_load"):
-            view.run_command("persistent_regex_highlight_view", {"settings": settings})
+            view.run_command("persistent_regex_highlight_view",
+                             {"settings": settings})
 
     def on_modified(self, view):
         settings = get_settings(view)
         if settings.get("on_modify"):
-            view.run_command("persistent_regex_highlight_view", {"settings": settings})
+            view.run_command("persistent_regex_highlight_view",
+                             {"settings": settings})
 
 
 def get_settings(view):
-    settings = sublime.load_settings("PersistentRegexHighlight.sublime-settings")
-    project_settings = view.settings().get('PersistentRegexHighlight', {})
+    plugin_name = "PersistentRegexHighlight"
+    settings = sublime.load_settings("%s.sublime-settings" % plugin_name)
+    project_settings = view.settings().get(plugin_name, {})
     local_settings = {}
 
     for setting in SETTINGS:
@@ -94,6 +97,7 @@ def get_settings(view):
         if key in SETTINGS:
             local_settings[key] = project_settings[key]
         else:
-            print "PersistentRegexHighlight: Invalid key '" + key + "' in project settings."
+            print("PersistentRegexHighlight: Invalid key '" + key +
+                  "' in project settings.")
 
     return local_settings
