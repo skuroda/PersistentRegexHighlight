@@ -1,0 +1,3 @@
+New Features:
+- Support underlining rather than highlighting text.
+- Allow scope to be specified rather than regular expression to highlight text.
