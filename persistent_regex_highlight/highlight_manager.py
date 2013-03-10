@@ -53,10 +53,11 @@ class HighlightManager():
             else:
                 color = "entity.name.class"
 
+            solid_underline = False
+            squigly_underline = False
+            stippled_underline = False
             if "underline" in obj and obj["underline"]:
                 solid_underline = True
-                squigly_underline = False
-                stippled_underline = False
                 if int(sublime.version()) >= 3014:
                     if "underline_style" in obj:
                         if obj["underline_style"].lower() == "squigly":
