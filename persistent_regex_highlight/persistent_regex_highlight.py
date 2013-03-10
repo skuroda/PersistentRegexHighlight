@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 import fnmatch
-from highlight_manager import *
+from PersistentRegexHighlight.persistent_regex_highlight.highlight_manager import *
 
 SETTINGS = [
     "regex",

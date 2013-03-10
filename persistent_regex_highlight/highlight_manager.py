@@ -1,5 +1,5 @@
-from color_scheme_manager import *
-from minimal_region_set import *
+from PersistentRegexHighlight.persistent_regex_highlight.color_scheme_manager import *
+from PersistentRegexHighlight.persistent_regex_highlight.minimal_region_set import *
 
 
 class HighlightManager():
@@ -48,19 +48,18 @@ class HighlightManager():
 
             if "underline" in obj and obj["underline"]:
                 underline = True
-
             if len(regions) > 0:
                 region_set.add_all(regions)
                 for region in regions:
                     if underline:
                         self.underline_regions.append(region)
-                    region_dictionary[region] = color
+                    region_dictionary[str(region)] = color
 
         # Create a dictionary of only the entries to be colored,
         # and their associated color
         regions = region_set.to_array()
         for region in regions:
-            color = region_dictionary[region]
+            color = region_dictionary[str(region)]
             if color in color_dictionary:
                 color_dictionary[color].append(region)
             else:
@@ -73,14 +72,14 @@ class HighlightManager():
         key_base = self.key_base
         counter = 0
 
-        for color, regions in color_dictionary.iteritems():
+        for color, regions in color_dictionary.items():
             highlight_regions = []
             for region in regions:
                 if region in self.underline_regions:
                     highlight_regions += self._underline(region)
                 else:
                     highlight_regions.append(region)
-            view.add_regions(key_base + str(counter), highlight_regions, color,
+            view.add_regions(key_base + str(counter), highlight_regions, color, "",
                              sublime.DRAW_EMPTY_AS_OVERWRITE)
             counter += 1
 
