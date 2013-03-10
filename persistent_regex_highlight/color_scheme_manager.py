@@ -2,7 +2,13 @@ import sublime
 import re
 import os
 import plistlib
-from PersistentRegexHighlight.persistent_regex_highlight.package_resources import *
+
+VERSION = int(sublime.version())
+if VERSION > 3000:
+    from PersistentRegexHighlight.persistent_regex_highlight.package_resources import *
+else:
+    from .package_resources import *
+
 
 class ColorSchemeManager():
     update_preferences = True
@@ -50,13 +56,10 @@ class ColorSchemeManager():
         if len(colors) == 0:
             return
 
-        package_path = sublime.packages_path()
         preferences = sublime.load_settings("Preferences.sublime-settings")
         preferences_cs = preferences.get('color_scheme')
 
-        preferences_cs_absolute = os.path.join(package_path, "..", preferences_cs)
-
-        cs_base = os.path.basename(preferences_cs_absolute)
+        cs_base = os.path.basename(preferences_cs)
 
         if cs_base[0:15] != "CustomHighlight":
             new_cs_base = "CustomHighlight" + cs_base
@@ -69,13 +72,21 @@ class ColorSchemeManager():
         new_cs = "Packages/" + self.new_color_scheme_path + "/" + new_cs_base
         try:
             package, resource = get_package_and_resource_name(preferences_cs)
-            cs_plist = plistlib.readPlistFromBytes(get_binary_resource(package, resource))
+            if VERSION > 3000:
+                binary_data = get_binary_resource(package, resource)
+                cs_plist = plistlib.readPlistFromBytes(binary_data)
+            else:
+                preferences_cs_absolute = os.path.join(sublime.packages_path(),
+                                                       "..",
+                                                       preferences_cs)
+                cs_plist = plistlib.readPlist(preferences_cs_absolute)
         except:
             sublime.error_message("An error occured while reading color " +
                                   "scheme file. Please check the console "
                                   "for details.")
             raise
-        updates_made, color_scheme = self._add_colors_to_scheme(cs_plist, colors)
+        updates_made, color_scheme = self._add_colors_to_scheme(cs_plist,
+                                                                colors)
 
         if updates_made or preferences_cs != new_cs:
             plistlib.writePlist(color_scheme, new_cs_absolute)

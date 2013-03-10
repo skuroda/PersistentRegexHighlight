@@ -1,6 +1,11 @@
-from PersistentRegexHighlight.persistent_regex_highlight.color_scheme_manager import *
-from PersistentRegexHighlight.persistent_regex_highlight.minimal_region_set import *
 import sublime
+
+if int(sublime.version()) > 3000:
+    from PersistentRegexHighlight.persistent_regex_highlight.color_scheme_manager import *
+    from PersistentRegexHighlight.persistent_regex_highlight.minimal_region_set import *
+else:
+    from .color_scheme_manager import *
+    from .minimal_region_set import *
 
 
 class HighlightManager():
@@ -30,7 +35,6 @@ class HighlightManager():
         self.stippled_underline_regions = []
         # Find all entries that match a pattern
         for obj in regex_list:
-            underline = False
             if "pattern" in obj:
                 if "ignore_case" in obj and obj["ignore_case"]:
                     regions = view.find_all(obj["pattern"], sublime.IGNORECASE)
@@ -109,15 +113,19 @@ class HighlightManager():
                 else:
                     highlight_regions.append(region)
 
-            view.add_regions(key_base + str(counter), highlight_regions, color, "",
+            view.add_regions(key_base + str(counter),
+                             highlight_regions, color, "",
                              sublime.DRAW_EMPTY_AS_OVERWRITE)
             if version >= 3014:
-                view.add_regions(key_base + str(counter), solid_underline_regions, color, "",
-                             sublime.DRAW_SOLID_UNDERLINE)
-                view.add_regions(key_base + str(counter), squigly_underline_regions, color, "",
-                             sublime.DRAW_SQUIGLY_UNDERLINE)
-                view.add_regions(key_base + str(counter), stippled_underline_regions, color, "",
-                             sublime.DRAW_STIPPLED_UNDERLINE)
+                view.add_regions(key_base + str(counter),
+                                 solid_underline_regions, color, "",
+                                 sublime.DRAW_SOLID_UNDERLINE)
+                view.add_regions(key_base + str(counter),
+                                 squigly_underline_regions, color, "",
+                                 sublime.DRAW_SQUIGLY_UNDERLINE)
+                view.add_regions(key_base + str(counter),
+                                 stippled_underline_regions, color, "",
+                                 sublime.DRAW_STIPPLED_UNDERLINE)
             counter += 1
 
     def _underline(self, region):

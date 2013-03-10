@@ -1,21 +1,34 @@
-import sys
-from imp import reload
-
 # Adapted from @wbond's resource loader.
 
+import sys
+import sublime
+
+VERSION = int(sublime.version())
+
+mod_prefix = "persistent_regex_highlight"
 reload_mods = []
-for mod in sys.modules:
-    if mod[0:24] == 'PersistentRegexHighlight' and sys.modules[mod] != None:
-        reload_mods.append(mod)
+
+if VERSION > 3000:
+    mod_prefix = "PersistentRegexHighlight." + mod_prefix
+    from imp import reload
+    for mod in sys.modules:
+        if mod[0:24] == 'PersistentRegexHighlight' and sys.modules[mod] is not None:
+            reload_mods.append(mod)
+else:
+
+    for mod in sorted(sys.modules):
+        if mod[0:26] == 'persistent_regex_highlight' and sys.modules[mod] is not None:
+            reload_mods.append(mod)
 
 mods_load_order = [
-    'PersistentRegexHighlight.persistent_regex_highlight.package_resources',
-    'PersistentRegexHighlight.persistent_regex_highlight.color_scheme_manager',
-    'PersistentRegexHighlight.persistent_regex_highlight.minimal_region_set',
-    'PersistentRegexHighlight.persistent_regex_highlight.highlight_manager',
-    'PersistentRegexHighlight.persistent_regex_highlight.persistent_regex_highlight'
+    '.package_resources',
+    '.color_scheme_manager',
+    '.minimal_region_set',
+    '.highlight_manager',
+    '.persistent_regex_highlight'
 ]
 
-for mod in mods_load_order:
+for suffix in mods_load_order:
+    mod = mod_prefix + suffix
     if mod in reload_mods:
         reload(sys.modules[mod])
