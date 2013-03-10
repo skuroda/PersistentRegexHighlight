@@ -65,6 +65,10 @@ An optional parameter specifying a highlight color. Please note you should speci
 
 A boolean value specifying if the specified pattern should be underlined rather than highlighted. This defaults to `False`.
 
+`underline_style`:
+
+An optional string specifying the underline style. This value is only used if `underline` is `true`. In addition, styles only apply for Sublime Text versions >= 3014. Valid Entries for this field are `solid`, `squiggly`, and `stippled`. Invalid entries will fall back to `solid`.
+
 #### Sample Regex Entries
 Example specifying a color scope.
 

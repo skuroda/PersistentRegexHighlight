@@ -2,10 +2,7 @@ import sublime
 import sublime_plugin
 import fnmatch
 
-if int(sublime.version()) > 3000:
-    from PersistentRegexHighlight.persistent_regex_highlight.highlight_manager import *
-else:
-    from .highlight_manager import *
+from .highlight_manager import *
 
 SETTINGS = [
     "regex",

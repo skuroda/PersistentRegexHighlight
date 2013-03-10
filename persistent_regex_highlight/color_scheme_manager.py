@@ -4,10 +4,7 @@ import os
 import plistlib
 
 VERSION = int(sublime.version())
-if VERSION > 3000:
-    from PersistentRegexHighlight.persistent_regex_highlight.package_resources import *
-else:
-    from .package_resources import *
+from .package_resources import *
 
 
 class ColorSchemeManager():
