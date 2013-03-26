@@ -102,7 +102,6 @@ class HighlightManager():
                     if version < 3014:
                         highlight_regions += self._underline(region)
                     else:
-                        print(region)
                         solid_underline_regions.append(region)
                 elif region in self.squiggly_underline_regions:
                     squiggly_underline_regions.append(region)
@@ -111,7 +110,7 @@ class HighlightManager():
                 else:
                     highlight_regions.append(region)
 
-            if len(highlight_regions) > 1:
+            if len(highlight_regions) > 0:
                 view.add_regions(key_base + str(counter),
                                  highlight_regions, color, "",
                                  sublime.DRAW_EMPTY_AS_OVERWRITE)
