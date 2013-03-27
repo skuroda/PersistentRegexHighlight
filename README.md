@@ -63,14 +63,14 @@ An optional parameter specifying a highlight color. Please note you should speci
 
 `underline`:
 
-A boolean value specifying if the specified pattern should be underlined rather than highlighted. This defaults to `False`.
+A boolean value specifying if the specified pattern should be underlined rather than highlighted. If this is set to "False", the entry will be highlighted rather than underlined. This defaults to `False`.
 
 `underline_style`:
 
 An optional string specifying the underline style. This value is only used if `underline` is `true`. In addition, styles only apply for Sublime Text versions >= 3014. Valid Entries for this field are `solid`, `squiggly`, and `stippled`. Invalid entries will fall back to `solid`.
 
 #### Sample Regex Entries
-Example specifying a color scope.
+Example specifying various patterns.
 
     {
         "regex": [{
@@ -78,8 +78,21 @@ Example specifying a color scope.
             "color_scope": "color.scope.name",
             "ignore_case": true
         }, {
-            "pattern": "constant.language",
+            "pattern_scope": "constant.language",
             "color_scope": "constant.language"
+        }, {
+            "pattern": "SomeUnderlinePattern",
+            "underline": true
+        }]
+    }
+
+Example specifying a color scope.
+
+    {
+        "regex": [{
+            "pattern": "[Ff]oo",
+            "color_scope": "color.scope.name",
+            "ignore_case": true
         }]
     }
 
