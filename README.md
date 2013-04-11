@@ -3,6 +3,7 @@
 This plugin will allow you to create regular expressions that will highlight for all documents.
 
 ## Installation
+
 ### Manual
 Clone or copy this repository into the packages directory. By default, they are located at:
 
@@ -38,6 +39,10 @@ A boolean value that specifies if highlighting should occur as modifications are
 `disable_pattern`:
 
 An array containing file patterns to ignore. Note these use Unix style patterns. Patterns are compared against the absolute path for the current file.
+
+`max_file_size`:
+
+Maximum file size to run the the PersistentRegexHighlight on. Any value less than or equal to zero will be treated as a non limiting value. Default value is 0.
 
 
 ### Regex Settings

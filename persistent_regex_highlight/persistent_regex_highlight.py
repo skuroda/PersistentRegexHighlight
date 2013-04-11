@@ -9,7 +9,8 @@ SETTINGS = [
     "enabled",
     "on_load",
     "on_modify",
-    "disable_pattern"
+    "disable_pattern",
+    "max_file_size"
 ]
 
 
@@ -19,8 +20,12 @@ class PersistentRegexHighlightViewCommand(sublime_plugin.TextCommand):
         filename = view.file_name()
         pattern_enable = True
 
-        if (len(settings) == 0):
+        if len(settings) == 0:
             settings = get_settings(view)
+
+        max_file_size = settings.get("max_file_size", 0)
+        if  max_file_size <= 0 or view.size() > max_file_size:
+            return
 
         highlight_manager = HighlightManager(view, settings)
 

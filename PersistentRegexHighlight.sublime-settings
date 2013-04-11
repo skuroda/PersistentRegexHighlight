@@ -1,6 +1,6 @@
 {
 	// Please see the README for more information on settings.
-	
+
 	// Array of objects containing a regular expression
 	// and an optional coloring scheme
 	"regex": [],
@@ -17,5 +17,9 @@
 	// File pattern to disable on. Should be specified as Unix style patterns
 	// Note, this looks at the absolute path to match the pattern. So if trying
 	// ignore a single file (e.g. README.md), you will need to specify "**/README.md"
-	"disable_pattern": []
+	"disable_pattern": [],
+
+	// Maximum file size to run the the PersistentRegexHighlight on.
+	// Any value less than or equal to zero will be treated as a non limiting value.
+	"max_file_size": 0
 }
