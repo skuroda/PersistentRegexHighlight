@@ -24,7 +24,7 @@ class PersistentRegexHighlightViewCommand(sublime_plugin.TextCommand):
             settings = get_settings(view)
 
         max_file_size = settings.get("max_file_size", 0)
-        if  max_file_size <= 0 or view.size() > max_file_size:
+        if  max_file_size > 0 and view.size() > max_file_size:
             return
 
         highlight_manager = HighlightManager(view, settings)
