@@ -10,7 +10,8 @@ SETTINGS = [
     "on_load",
     "on_modify",
     "disable_pattern",
-    "max_file_size"
+    "max_file_size",
+    "whitelist_folders"
 ]
 
 
@@ -80,14 +81,32 @@ class PersistentRegexHighlightEvents(sublime_plugin.EventListener):
     def on_load(self, view):
         settings = get_settings(view)
         if settings.get("on_load"):
-            view.run_command("persistent_regex_highlight_view",
-                             {"settings": settings})
+            self.try_run_command(view, settings)
 
     def on_modified(self, view):
         settings = get_settings(view)
         if settings.get("on_modify"):
+            self.try_run_command(view, settings)
+
+    def try_run_command(self, view, settings):
+        if len(settings.get("whitelist_folders")) > 0:
+            filename = _normalize_to_sublime_path(view.file_name())
+            for folder in settings.get("whitelist_folders"):
+                folder = _normalize_to_sublime_path(folder)
+                common = os.path.commonprefix([folder, filename])
+                if common == folder:
+                    view.run_command("persistent_regex_highlight_view",
+                                     {"settings": settings})
+                    break
+        else:
             view.run_command("persistent_regex_highlight_view",
                              {"settings": settings})
+
+    def _normalize_to_sublime_path(path):
+        path = os.path.normpath(path)
+        path = re.sub(r"^([a-zA-Z]):", "/\\1", path)
+        path = re.sub(r"\\", "/", path)
+        return path
 
 
 def get_settings(view):

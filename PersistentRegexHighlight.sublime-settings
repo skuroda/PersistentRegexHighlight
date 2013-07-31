@@ -21,5 +21,7 @@
 
 	// Maximum file size to run the the PersistentRegexHighlight on.
 	// Any value less than or equal to zero will be treated as a non limiting value.
-	"max_file_size": 0
+	"max_file_size": 0,
+
+	"whitelist_folders": []
 }
