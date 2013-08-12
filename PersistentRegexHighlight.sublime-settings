@@ -23,5 +23,8 @@
 	// Any value less than or equal to zero will be treated as a non limiting value.
 	"max_file_size": 0,
 
+	// A list of absolute paths, specifying folders to run PersistentRegexHighlight.
+	// An empty list will result in PersistentRegexHighlight running on all files
+	// (unless limited by the `disable_pattern` setting).
 	"whitelist_folders": []
 }

@@ -11,6 +11,12 @@ Clone or copy this repository into the packages directory. By default, they are 
 * Windows: %APPDATA%/Roaming/Sublime Text 2/Packages/
 * Linux: ~/.config/sublime-text-2/Packages/
 
+or
+
+* OS X: ~/Library/Application Support/Sublime Text 3/Packages/
+* Windows: %APPDATA%/Roaming/Sublime Text 3/Packages/
+* Linux: ~/.config/sublime-text-3/Packages/
+
 ### Package Control
 Installation through [package control](http://wbond.net/sublime_packages/package_control) is recommended. It will handle updating your packages as they become available. To install, do the following.
 
@@ -44,6 +50,9 @@ An array containing file patterns to ignore. Note these use Unix style patterns.
 
 Maximum file size to run the the PersistentRegexHighlight on. Any value less than or equal to zero will be treated as a non limiting value. Default value is 0.
 
+`whitelist_folders`:
+
+A list of absolute paths, specifying folders to run PersistentRegexHighlight. An empty list will result in PersistentRegexHighlight running on all files (unless limited by the `disable_pattern` setting).
 
 ### Regex Settings
 `pattern`:
