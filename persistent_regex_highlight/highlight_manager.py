@@ -31,6 +31,30 @@ class HighlightManager():
         self.stippled_underline_regions = []
         # Find all entries that match a pattern
         for obj in regex_list:
+
+            if "syntax" in obj:
+                applicable = False
+                view_syntax = view.settings().get('syntax')
+                if view_syntax:
+                    for syn in obj["syntax"]:
+                        if syn in view_syntax:
+                            applicable = True
+                if not applicable:
+                    print(view_syntax + " not applicable")
+                    continue
+
+            if "syntax_ignore" in obj:
+                applicable = True
+                view_syntax = view.settings().get('syntax')
+                if view_syntax:
+                    for syn in obj["syntax_ignore"]:
+                        if syn in view_syntax:
+                            applicable = False
+                if not applicable:
+                    print(view_syntax + " not applicable")
+                    continue
+
+
             if "pattern" in obj:
                 if "ignore_case" in obj and obj["ignore_case"]:
                     regions = view.find_all(obj["pattern"], sublime.IGNORECASE)
