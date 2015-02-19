@@ -40,7 +40,6 @@ class HighlightManager():
                         if syn in view_syntax:
                             applicable = True
                 if not applicable:
-                    print(view_syntax + " not applicable")
                     continue
 
             if "syntax_ignore" in obj:
@@ -51,7 +50,6 @@ class HighlightManager():
                         if syn in view_syntax:
                             applicable = False
                 if not applicable:
-                    print(view_syntax + " not applicable")
                     continue
 
 
