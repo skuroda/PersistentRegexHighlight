@@ -97,7 +97,11 @@ class ColorSchemeManager():
                                                 "are being saved. By " +
                                                 "clicking cancel you will " +
                                                 "not be reminded again in " +
-                                                "this session")
+                                                "this session. " +
+                                                "To permanently disable " +
+                                                "this prompt, set " +
+                                                "'prompt_new_color_scheme' " +
+                                                "to false in the settings")
 
                 if okay:
                     preferences.set("color_scheme", new_cs)

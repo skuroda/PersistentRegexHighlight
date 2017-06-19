@@ -13,8 +13,9 @@ class HighlightManager():
     def highlight(self):
         color_dictionary, colors = self._get_highlight_dictionary()
 
-        color_scheme_manager = ColorSchemeManager("User/ColorScheme")
-        color_scheme_manager.create_user_custom_theme(colors)
+        if self.settings.get("prompt_new_color_scheme"):
+            color_scheme_manager = ColorSchemeManager("User/ColorScheme")
+            color_scheme_manager.create_user_custom_theme(colors)
 
         self._highlight_regex(color_dictionary)
 

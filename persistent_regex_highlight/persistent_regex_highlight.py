@@ -11,7 +11,8 @@ SETTINGS = [
     "on_modify",
     "disable_pattern",
     "max_file_size",
-    "whitelist_folders"
+    "whitelist_folders",
+    "prompt_new_color_scheme"
 ]
 
 

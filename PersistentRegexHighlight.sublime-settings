@@ -26,5 +26,9 @@
 	// A list of absolute paths, specifying folders to run PersistentRegexHighlight.
 	// An empty list will result in PersistentRegexHighlight running on all files
 	// (unless limited by the `disable_pattern` setting).
-	"whitelist_folders": []
+	"whitelist_folders": [],
+
+	// Prevent being prompted for generation of new color schemes. Note that disabling this will require modification of existing color schemes
+	// to properly color highlighting.
+	"prompt_new_color_scheme": true
 }
