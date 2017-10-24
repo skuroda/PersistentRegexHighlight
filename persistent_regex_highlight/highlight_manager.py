@@ -64,6 +64,10 @@ class HighlightManager():
             else:
                 continue
 
+            if "ignored_scopes" in obj:
+                scope = obj["ignored_scopes"].lower();
+                regions = [region for region in regions if len([sel_scope for sel_scope in view.scope_name(region.begin()).split() if sel_scope in scope]) == 0]
+
             if "color_scope" in obj:
                 color = obj["color_scope"]
             elif "color" in obj:
