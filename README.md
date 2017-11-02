@@ -63,6 +63,10 @@ A string representing a pattern to match. Note that the regex setting must conta
 
 A string specifying a scope to highlight. These are scopes that exist in a `.tmLanguage` files. If multiple entries in the `regex` setting contain overlapping scopes, the first will be used. For example, if two entries are specified with different colors, one being `constant.language` and the other being `constant.language.python`, which ever appears first will be used to highlight. Note that the regex setting must contain **either** `pattern` or `pattern_scope`. If both are specified, `pattern` will be used.
 
+`ignored_scopes`:
+
+An optional parameter where one can specify scopes which will never be matched by the pattern. It is Possible to specify more than one scope. They are separated by whitespace (' ').
+
 `ignore_case`:
 
 An optional boolean value specifiying if the pattern should ignore case. This only applies if `pattern` is specified. By default, this is set to false.
@@ -117,6 +121,17 @@ Example specifying a color.
             "pattern": "Bar",
             "color": "00FF00",
             "ignore_case": false
+        }]
+    }
+
+Example for excluding a scope.
+
+    {
+        "regex": [{
+            "pattern": "\\t",
+            "color": "FF3333",
+            "ignore_case": true,
+            "ignored_scopes": "text.plain example.scope.name"
         }]
     }
 
