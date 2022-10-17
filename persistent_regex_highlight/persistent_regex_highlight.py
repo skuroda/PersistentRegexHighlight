@@ -104,12 +104,12 @@ class RemovePersistentRegexHighlightAllViewsCommand(sublime_plugin.ApplicationCo
 
 class PersistentRegexHighlightEvents(sublime_plugin.EventListener):
 
-    def on_load(self, view):
+    def on_load_async(self, view):
         settings = get_settings(view)
         if settings.get("on_load"):
             self.try_run_command(view, settings)
 
-    def on_modified(self, view):
+    def on_modified_async(self, view):
         settings = get_settings(view)
         if settings.get("on_modify"):
             self.try_run_command(view, settings)
