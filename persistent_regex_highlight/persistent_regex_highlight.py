@@ -47,6 +47,31 @@ class PersistentRegexHighlightViewCommand(sublime_plugin.TextCommand):
             highlight_manager.highlight()
 
 
+class PersistentRegexHighlightView():
+    def run(view, settings):
+        filename       = view.file_name()
+        pattern_enable = True
+
+        max_file_size = settings.get("max_file_size", 0)
+        if  0           < max_file_size and\
+            view.size() > max_file_size:
+            return
+
+        highlight_manager = HighlightManager(view, settings)
+        highlight_manager.remove_highlight()
+
+        disable_pattern = settings.get("disable_pattern")
+        for pattern in disable_pattern:
+            if filename is None:
+                continue
+            if fnmatch.fnmatch(filename, pattern):
+                pattern_enable = False
+                break
+
+        if settings.get("enabled") and pattern_enable:
+            highlight_manager.highlight()
+
+
 class PersistentRegexHighlightAllViewsCommand(sublime_plugin.ApplicationCommand):
     def run(self):
         windows = sublime.windows()
@@ -79,12 +104,12 @@ class RemovePersistentRegexHighlightAllViewsCommand(sublime_plugin.ApplicationCo
 
 class PersistentRegexHighlightEvents(sublime_plugin.EventListener):
 
-    def on_load(self, view):
+    def on_load_async(self, view):
         settings = get_settings(view)
         if settings.get("on_load"):
             self.try_run_command(view, settings)
 
-    def on_modified(self, view):
+    def on_modified_async(self, view):
         settings = get_settings(view)
         if settings.get("on_modify"):
             self.try_run_command(view, settings)
@@ -96,12 +121,10 @@ class PersistentRegexHighlightEvents(sublime_plugin.EventListener):
                 folder = _normalize_to_sublime_path(folder)
                 common = os.path.commonprefix([folder, filename])
                 if common == folder:
-                    view.run_command("persistent_regex_highlight_view",
-                                     {"settings": settings})
+                    PersistentRegexHighlightView.run(view, settings)
                     break
         else:
-            view.run_command("persistent_regex_highlight_view",
-                             {"settings": settings})
+            PersistentRegexHighlightView.run(view, settings)
 
     def _normalize_to_sublime_path(path):
         path = os.path.normpath(path)
